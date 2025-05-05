@@ -6,7 +6,7 @@ def generate_launch_description():
         Node(
             package='python_playground',
             namespace='python_playground',
-            executable='inter_node',
-            name='inter_node'
+            executable='inter_pub',
+            name='inter_pub'
         ),
     ])
