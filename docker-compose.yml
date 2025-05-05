@@ -1,35 +1,16 @@
 version: '3.8'
 
 services:
-  autonomy:
-    image: sausr/autonomy:1
-    # restart: unless-stopped
+  playground:
+    image: playground:1
     restart: "no"
     volumes:
-      - ./chaos-ddssuite:/chaos-ddssuite
       - ./ros_ws:/ros_ws
-      - ./docker/ros/entryfile.sh:/entryfile.sh
-      - ./logs:/home/chaos/.ros
-      - ./config:/config
-      - ./export:/export
-      - ./models:/models
-      - ${HW_DEVICE}:${HW_DEVICE}
-      - /run/udev:/run/udev:ro
-      #- /lib/firmware:/lib/firmware
-      - ./.git/HEAD:/git/HEAD
-      - ./.git/refs/heads:/git/refs/heads
-      
+      - ./docker/entryfile.sh:/entryfile.sh
     env_file:
       - .env
-      - ./chaos-ddssuite/.env.dds.fast.platform
-    # devices:
-      # - ${CAM_DEVICE}:${CAM_DEVICE}
-      #- /dev/video*:/dev/video*
-      #- /dev/media*:/dev/media*
-    command: ['-m',"$MAV_PORT",'-t',"$SYSTEM"]
     network_mode: host
     privileged: true
     device_cgroup_rules:
       - 'c 81:* rmw'
       - 'c 189:* rmw'
-

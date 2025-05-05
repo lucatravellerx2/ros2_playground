@@ -36,6 +36,15 @@ def docker(container, id, nocache=False, dds=False):
         auto.extend(["docker/"])
 
         subprocess.call(auto)
+    
+def ros():
+    cmd = "docker compose -f docker-compose.yml"
+    cmd += " run --no-deps --entrypoint /build.sh playground"
+
+    print(cmd)
+    p = subprocess.call(cmd, shell=True)
+    # p = subprocess.call("docker compose -p SITL1 run --no-deps --entrypoint '' controller bash -c 'cd /ros_ws && colcon build'", shell=True)
+
         
 
 if __name__ == "__main__":
@@ -75,6 +84,21 @@ if __name__ == "__main__":
         action="store_true"
     )
 
+    # ROS
+    ros_parser = subparsers.add_parser(
+        "ros", description="Build ros workspace"
+    )
+
+    # ros_parser = subparsers.add_parser(
+    #     "-i",
+    #     "--id",
+    #     nargs=1,
+    #     type=str,
+    #     default=["python_playgroun"]
+    #     help="ID of package to build"
+
+    # )
+
     # show help if no commands are included
     if len(sys.argv) < 2:
         parser.print_help()
@@ -84,3 +108,4 @@ if __name__ == "__main__":
     kwargs = vars(parser.parse_args())
     print(kwargs)
     globals()[kwargs.pop("subparser")](**kwargs)
+
