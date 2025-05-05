@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+
+import argparse
+import sys
+import subprocess
+import signal
+import datetime
+import requests
+import json
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+composeArray = ["docker", "compose"]
+
+def docker(container, id, nocache=False, dds=False):
+    cmd = ["docker","build"]
+    container = container[0]
+    container_id = id[0]
+
+    if container == "docker" or container == "all":
+        name="chaos"
+        distro=os.getenv("TEST_DISTRO")
+        start_image=f"ros:{distro}"
+
+        auto = cmd.copy()
+        if nocache:
+            auto.extend(["--no-cache"])
+        
+        auto.extend(["-f", "docker/Dockerfile", "-t", "{}".format(container_id)])
+
+        auto.extend(["--build-arg","NAME={}".format(name),"--build-arg","START_IMAGE={}".format(start_image), "--build-arg", "ROS_DISTRO={}".format(distro), "--build-arg", "USER_UID={}".format(os.getuid())])
+
+        auto.extend(["docker/"])
+
+        subprocess.call(auto)
+        
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="<<< BACON >>>"
+    )
+
+    subparsers = parser.add_subparsers(dest="subparser")
+
+    # DOCKER
+    docker_parser = subparsers.add_parser(
+        "docker", description="Build docker images"
+    )
+    
+    docker_parser.add_argument(
+        "-c",
+        "--container",
+        nargs=1,
+        type=str,
+        default=['all'],
+        help="Container to build. Default all",
+    )
+
+    docker_parser.add_argument(
+        "-i",
+        "--id",
+        nargs=1,
+        type=str,
+        default=['test1'],
+        help="Container Name"
+    )
+
+    docker_parser.add_argument(
+        "-n",
+        "--nocache",        
+        help="Do not use the cache for the build",
+        action="store_true"
+    )
+
+    # show help if no commands are included
+    if len(sys.argv) < 2:
+        parser.print_help()
+        sys.exit(1)
+
+    # parse args and dispatch appropriate functions
+    kwargs = vars(parser.parse_args())
+    print(kwargs)
+    globals()[kwargs.pop("subparser")](**kwargs)
