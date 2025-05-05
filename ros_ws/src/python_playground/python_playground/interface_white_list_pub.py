@@ -15,13 +15,13 @@ class InterfaceWhiteList(Node):
         self.timer = self.create_timer(2.0, self.timer_cb)
     
     def cb(self, msg):
-        print(f">> We Got Msg: {msg}")
+        self.get_logger().info(f">> We Got Msg: {msg}")
 
     def timer_cb(self):
         msg = String()
         msg.data = "ass"
 
-        print("Sending Message>>")
+        self.get_logger().info("Sending Message>>")
         self.pub.publish(msg)
 
 def main(args=None):
