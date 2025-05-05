@@ -1,0 +1,233 @@
+name: chaos_bridge
+# FROM should be overiden via the entrypoint script
+from_domain: 0
+to_domain: 220
+topics:
+  america:
+    to_domain: 221
+    type: std_msgs/msg/String
+    bidirectional: true
+  # Bridge AIR -> GROUND
+  network/pose:
+    to_domain: 221
+    type: chaos_if/NetworkPosition
+  network/state:
+    to_domain: 221
+    type: chaos_if/NetworkState
+  network/console:
+    to_domain: 221
+    type: chaos_if/NetworkLog
+  network/tactic/state:
+    to_domain: 221
+    type: chaos_if/SwarmState
+  network/triangulate:
+    to_domain: 221
+    type: chaos_if/PoseWifiData
+  network/request:
+    to_domain: 221
+    type: chaos_if/TacticRequest
+  # Bridge GROUND -> AIR
+  network/arm:
+    type: chaos_if/NetworkBool
+    reversed: True
+  network/mode/offboard:
+    type: chaos_if/NetworkBool
+    reversed: True
+  network/takeoff:
+    type: chaos_if/NetworkUInt16
+    reversed: True
+  network/land:
+    type: chaos_if/NetworkEmpty
+    reversed: True
+  network/goto:
+    type: chaos_if/NetworkGoTo
+    reversed: True
+  network/move:
+    type: chaos_if/NetworkMove
+    reversed: True
+  network/response:
+    type: chaos_if/TacticRequest
+    reversed: True
+  network/triangulatereq:
+    type: chaos_if/NetworkWifi
+    reversed: True
+  network/tactic:
+    type: chaos_if/NetworkTactic
+    reversed: True
+  # BRIDGE AIR <-> AIR
+  air/state:
+    type: chaos_if/AirState
+    to_domain: 230
+    bidirectional: True
+  # BRIDGE SWARM <-> SWARM
+  ## /state Topic
+  comms/aggregate:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/p12:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/p13:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/p14:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/p15:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/p16:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/group/g1:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/group/g2:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/group/g3:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/group/g4:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/group/g5:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/heartbeat/p1:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   qos:
+     liveliness: automatic
+     liveliness_lease_duration: 4
+     history: "keep_last"
+     depth: 1
+   bidirectional: True
+  comms/aggregate/heartbeat/p0:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   qos:
+     liveliness: automatic
+     liveliness_lease_duration: 4
+     history: "keep_last"
+     depth: 1
+   bidirectional: True
+  comms/aggregate/heartbeat/p12:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   qos:
+     liveliness: automatic
+     liveliness_lease_duration: 4
+     history: "keep_last"
+     depth: 1
+   bidirectional: True
+  comms/aggregate/heartbeat/p13:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   bidirectional: True
+   qos:
+     liveliness: automatic
+     history: keep_last
+     depth: 1
+     lifespan: 4000000000
+     reliability: best_effort
+     liveliness_lease_durationnnnn: 4000000000
+  comms/aggregate/heartbeat/p14:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   bidirectional: True
+   qos:
+     liveliness: automatic
+     history: keep_last
+     depth: 1
+     lifespan: 4000000000
+     reliability: best_effort
+     liveliness_lease_durationnnnn: 4000000000
+  comms/aggregate/heartbeat/p15:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/heartbeat/p16:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/swarm/ready:
+   type: std_msgs/msg/Bool
+   to_domain: 215
+   bidirectional: True
+  comms/aggregate/resume:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  comms/aggregate/resume/p12:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  comms/aggregate/resume/p13:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  comms/aggregate/resume/p14:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  comms/aggregate/resume/p15:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  comms/aggregate/resume/p16:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  swarm0/state:
+    type: chaos_if/SwarmState
+    to_domain: 215
+    bidirectional: True
+  swarm1/state:
+    type: chaos_if/SwarmState
+    to_domain: 216
+    bidirectional: True
+  swarm2/state:
+    type: chaos_if/SwarmState
+    to_domain: 217
+    bidirectional: True
+  swarm3/state:
+    type: chaos_if/SwarmState
+    to_domain: 218
+    bidirectional: True
+  swarm4/state:
+    type: chaos_if/SwarmState
+    to_domain: 219
+    bidirectional: True
+  ## /data Topic
+  swarm0/data:
+    type: chaos_if/SwarmData
+    to_domain: 215
+    bidirectional: True
+  swarm1/data:
+    type: chaos_if/SwarmData
+    to_domain: 216
+    bidirectional: True
+  swarm2/data:
+    type: chaos_if/SwarmData
+    to_domain: 217
+    bidirectional: True
+  swarm3/data:
+    type: chaos_if/SwarmData
+    to_domain: 218
+    bidirectional: True
+  swarm4/data:
+    type: chaos_if/SwarmData
+    to_domain: 219
+    bidirectional: True

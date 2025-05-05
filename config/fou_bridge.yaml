@@ -1,0 +1,64 @@
+name: chaos_bridge_14
+# FROM should be overiden via the entrypoint script
+from_domain: 14
+
+topics:
+  # america:
+  #   to_domain: 210
+  #   type: std_msgs/msg/String
+
+  america:
+    to_domain: 210
+    type: std_msgs/msg/String
+    bidirectional: True
+
+  comms/aggregate/heartbeat/p13:
+    type: std_msgs/msg/Bool
+    to_domain: 13
+    qos:
+      liveliness: automatic
+      history: keep_last
+      depth: 1
+      # lifespan: 4000000000
+      reliability: best_effort
+      liveliness_lease_duration: 2000000000
+    bidirectional: True
+    auto_remove: True
+
+  comms/aggregate/heartbeat/p14:
+    type: std_msgs/msg/Bool
+    to_domain: 215
+    qos:
+      liveliness: automatic
+      history: keep_last
+      depth: 1
+      # lifespan: 4000000000
+      reliability: best_effort
+      liveliness_lease_duration: 2000000000
+    bidirectional: True
+    auto_remove: True
+  
+  comms/aggregate/resume/p13:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+
+  comms/aggregate/resume/p14:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidriectional: True
+  
+  comms/aggregate/p13:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+
+  comms/aggregate/p14:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
+  
+  comms/aggregate:
+   type: std_msgs/msg/ByteMultiArray
+   to_domain: 215
+   bidirectional: True
